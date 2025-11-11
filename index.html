@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameTopUp - Top Up Game Online Terpercaya</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --success: #00b894;
+            --danger: #d63031;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(108, 92, 231, 0.8), rgba(162, 155, 254, 0.8)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .game-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .game-card img {
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .price-tag {
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .feature-box {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .payment-methods img {
+            height: 40px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(108, 92, 231, 0.25);
+        }
+        
+        .badge-game {
+            background-color: var(--secondary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        
+        .game-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 10px;
+            position: relative;
+        }
+        
+        .step.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            width: 20px;
+            height: 2px;
+            background-color: #e0e0e0;
+        }
+        
+        .step.active:not(:last-child):after {
+            background-color: var(--primary);
+        }
+        
+        .step-content {
+            display: none;
+        }
+        
+        .step-content.active {
+            display: block;
+        }
+        
+        .package-card {
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .package-card:hover, .package-card.selected {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .payment-card {
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .payment-card:hover, .payment-card.selected {
+            border-color: var(--primary);
+        }
+        
+        .order-summary {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-gamepad me-2"></i>GameTopUp
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#games">Game</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#cara-order">Cara Order</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimoni">Testimoni</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="#" class="btn btn-outline-light me-2">Masuk</a>
+                    <a href="#" class="btn btn-light">Daftar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Top Up Game Online Mudah & Cepat</h1>
+            <p class="lead mb-4">Dapatkan diamond, koin, dan item game favorit Anda dengan proses instan dan harga terbaik</p>
+            <a href="#games" class="btn btn-light btn-lg px-4 py-2 fw-bold">Top Up Sekarang</a>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Pilih Game Favorit Anda</h2>
+            <div class="row g-4">
+                <!-- Game Cards -->
+                <div class="col-md-4 col-lg-3">
+                    <div class="game-card card h-100" onclick="openOrderModal('Mobile Legends')">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" class="card-img-top" alt="Mobile Legends">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Mobile Legends</h5>
+                            <p class="card-text flex-grow-1">Diamond ML mulai dari Rp 5.000</p>
+                            <div class="mt-auto">
+                                <span class="badge-game">MOBA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <div class="game-card card h-100" onclick="openOrderModal('Free Fire')">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" class="card-img-top" alt="Free Fire">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Free Fire</h5>
+                            <p class="card-text flex-grow-1">Diamond FF mulai dari Rp 5.000</p>
+                            <div class="mt-auto">
+                                <span class="badge-game">Battle Royale</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <div class="game-card card h-100" onclick="openOrderModal('PUBG Mobile')">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" class="card-img-top" alt="PUBG Mobile">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">PUBG Mobile</h5>
+                            <p class="card-text flex-grow-1">UC PUBG mulai dari Rp 10.000</p>
+                            <div class="mt-auto">
+                                <span class="badge-game">Battle Royale</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <div class="game-card card h-100" onclick="openOrderModal('Genshin Impact')">
+                        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" class="card-img-top" alt="Genshin Impact">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Genshin Impact</h5>
+                            <p class="card-text flex-grow-1">Genesis Crystal mulai dari Rp 15.000</p>
+                            <div class="mt-auto">
+                                <span class="badge-game">RPG</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center section-title">Mengapa Memilih GameTopUp?</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h4>Proses Instan</h4>
+                        <p>Top up game Anda hanya dalam hitungan detik setelah pembayaran berhasil</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>100% Aman</h4>
+                        <p>Transaksi aman dengan sistem keamanan terbaik dan garansi uang kembali</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h4>Bantuan 24/7</h4>
+                        <p>Customer service siap membantu Anda kapan saja selama 24 jam</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Order Section -->
+    <section id="cara-order" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Cara Order Mudah</h2>
+            <div class="row g-4">
+                <div class="col-md-3 text-center">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <span class="badge bg-primary rounded-circle p-3">1</span>
+                        </div>
+                        <h4>Pilih Game</h4>
+                        <p>Pilih game dan jumlah diamond/koin yang ingin dibeli</p>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <span class="badge bg-primary rounded-circle p-3">2</span>
+                        </div>
+                        <h4>Masukkan ID</h4>
+                        <p>Masukkan ID game dan server Anda dengan benar</p>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <span class="badge bg-primary rounded-circle p-3">3</span>
+                        </div>
+                        <h4>Bayar</h4>
+                        <p>Pilih metode pembayaran dan lakukan pembayaran</p>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <span class="badge bg-primary rounded-circle p-3">4</span>
+                        </div>
+                        <h4>Selesai</h4>
+                        <p>Diamond/koin akan langsung masuk ke akun game Anda</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimoni" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center section-title">Apa Kata Pelanggan Kami</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle me-3" width="50" height="50" alt="User">
+                                <div>
+                                    <h5 class="mb-0">Rizki Pratama</h5>
+                                    <div class="text-warning">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="card-text">"Cepat banget prosesnya, ga sampe 5 menit diamond udah masuk. Recommended banget!"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="rounded-circle me-3" width="50" height="50" alt="User">
+                                <div>
+                                    <h5 class="mb-0">Sari Dewi</h5>
+                                    <div class="text-warning">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="card-text">"Harganya murah dan prosesnya mudah. Customer service ramah dan responsif."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="https://randomuser.me/api/portraits/men/76.jpg" class="rounded-circle me-3" width="50" height="50" alt="User">
+                                <div>
+                                    <h5 class="mb-0">Ahmad Fauzi</h5>
+                                    <div class="text-warning">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="card-text">"Udah langganan di sini, selalu puas dengan pelayanannya. Proses top up cepat dan aman."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-gamepad me-2"></i>GameTopUp</h5>
+                    <p>Platform top up game online terpercaya dengan proses instan dan harga terbaik di Indonesia.</p>
+                    <div class="d-flex mt-4">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5 class="fw-bold mb-3">Tautan Cepat</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Beranda</a></li>
+                        <li class="mb-2"><a href="#games" class="text-white text-decoration-none">Game</a></li>
+                        <li class="mb-2"><a href="#cara-order" class="text-white text-decoration-none">Cara Order</a></li>
+                        <li class="mb-2"><a href="#testimoni" class="text-white text-decoration-none">Testimoni</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold mb-3">Bantuan</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">FAQ</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Syarat & Ketentuan</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Kebijakan Privasi</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Hubungi Kami</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold mb-3">Metode Pembayaran</h5>
+                    <div class="payment-methods">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/BCA_logo.svg/2560px-BCA_logo.svg.png" alt="BCA">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Mandiri_logo.svg/2560px-Bank_Mandiri_logo.svg.png" alt="Mandiri">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/2560px-Logo_dana_blue.svg.png" alt="DANA">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/1200px-Logo_ovo_purple.svg.png" alt="OVO">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Gopay_logo.svg/2560px-Gopay_logo.svg.png" alt="Gopay">
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2023 GameTopUp. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Order Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">Top Up Game</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="step-indicator">
+                        <div class="step active">1</div>
+                        <div class="step">2</div>
+                        <div class="step">3</div>
+                    </div>
+                    
+                    <div id="step1" class="step-content active">
+                        <h5 class="mb-4">Pilih Nominal Top Up</h5>
+                        <div class="row g-3" id="packageContainer">
+                            <!-- Packages will be loaded here by JavaScript -->
+                        </div>
+                        <div class="mt-4 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(2)">Lanjut</button>
+                        </div>
+                    </div>
+                    
+                    <div id="step2" class="step-content">
+                        <h5 class="mb-4">Masukkan Data Akun</h5>
+                        <form id="accountForm">
+                            <div class="mb-3">
+                                <label for="gameId" class="form-label">ID Game</label>
+                                <input type="text" class="form-control" id="gameId" placeholder="Masukkan ID Game" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="server" class="form-label">Server</label>
+                                <input type="text" class="form-control" id="server" placeholder="Masukkan Server" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nickname" class="form-label">Nickname</label>
+                                <input type="text" class="form-control" id="nickname" placeholder="Masukkan Nickname" required>
+                            </div>
+                        </form>
+                        <div class="order-summary">
+                            <h6>Ringkasan Pesanan:</h6>
+                            <p id="orderSummary">-</p>
+                        </div>
+                        <div class="mt-4 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Kembali</button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(3)">Lanjut</button>
+                        </div>
+                    </div>
+                    
+                    <div id="step3" class="step-content">
+                        <h5 class="mb-4">Pilih Metode Pembayaran</h5>
+                        <div class="row g-3" id="paymentContainer">
+                            <!-- Payment methods will be loaded here -->
+                        </div>
+                        <div class="order-summary">
+                            <h6>Ringkasan Pesanan:</h6>
+                            <p id="finalOrderSummary">-</p>
+                            <p class="fw-bold">Total: <span id="totalAmount">Rp 0</span></p>
+                        </div>
+                        <div class="mt-4 d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Kembali</button>
+                            <button type="button" class="btn btn-success" onclick="completeOrder()">Bayar Sekarang</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Data untuk game dan paket
+        const gameData = {
+            'Mobile Legends': [
+                { name: '86 Diamond', amount: 86, price: 20000 },
+                { name: '172 Diamond', amount: 172, price: 40000 },
+                { name: '257 Diamond', amount: 257, price: 60000 },
+                { name: '344 Diamond', amount: 344, price: 80000 },
+                { name: '429 Diamond', amount: 429, price: 100000 },
+                { name: '514 Diamond', amount: 514, price: 120000 }
+            ],
+            'Free Fire': [
+                { name: '50 Diamond', amount: 50, price: 5000 },
+                { name: '100 Diamond', amount: 100, price: 10000 },
+                { name: '210 Diamond', amount: 210, price: 20000 },
+                { name: '530 Diamond', amount: 530, price: 50000 },
+                { name: '1100 Diamond', amount: 1100, price: 100000 }
+            ],
+            'PUBG Mobile': [
+                { name: '60 UC', amount: 60, price: 10000 },
+                { name: '325 UC', amount: 325, price: 50000 },
+                { name: '660 UC', amount: 660, price: 100000 },
+                { name: '1800 UC', amount: 1800, price: 250000 }
+            ],
+            'Genshin Impact': [
+                { name: '60 Genesis Crystal', amount: 60, price: 15000 },
+                { name: '330 Genesis Crystal', amount: 330, price: 79000 },
+                { name: '1090 Genesis Crystal', amount: 1090, price: 239000 },
+                { name: '2240 Genesis Crystal', amount: 2240, price: 479000 }
+            ]
+        };
+
+        const paymentMethods = [
+            { name: 'BCA', type: 'bank' },
+            { name: 'Mandiri', type: 'bank' },
+            { name: 'BNI', type: 'bank' },
+            { name: 'BRI', type: 'bank' },
+            { name: 'DANA', type: 'ewallet' },
+            { name: 'OVO', type: 'ewallet' },
+            { name: 'Gopay', type: 'ewallet' },
+            { name: 'LinkAja', type: 'ewallet' }
+        ];
+
+        // Variabel global untuk menyimpan data pesanan
+        let currentOrder = {
+            game: '',
+            package: null,
+            account: {
+                gameId: '',
+                server: '',
+                nickname: ''
+            },
+            paymentMethod: ''
+        };
+
+        // Function untuk membuka modal order
+        function openOrderModal(gameName) {
+            currentOrder.game = gameName;
+            document.getElementById('orderModalLabel').textContent = 'Top Up ' + gameName;
+            loadPackages(gameName);
+            loadPaymentMethods();
+            resetOrderData();
+            const modal = new bootstrap.Modal(document.getElementById('orderModal'));
+            modal.show();
+        }
+
+        // Function untuk memuat paket game
+        function loadPackages(gameName) {
+            const container = document.getElementById('packageContainer');
+            container.innerHTML = '';
+            
+            const packages = gameData[gameName];
+            packages.forEach((pkg, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-4';
+                col.innerHTML = `
+                    <div class="card text-center package-card" onclick="selectPackage(${index})">
+                        <div class="card-body">
+                            <h5 class="card-title">${pkg.name}</h5>
+                            <p class="card-text price-tag">Rp ${pkg.price.toLocaleString()}</p>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+        }
+
+        // Function untuk memuat metode pembayaran
+        function loadPaymentMethods() {
+            const container = document.getElementById('paymentContainer');
+            container.innerHTML = '';
+            
+            paymentMethods.forEach((method, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6';
+                col.innerHTML = `
+                    <div class="card payment-card" onclick="selectPaymentMethod(${index})">
+                        <div class="card-body d-flex align-items-center">
+                            <i class="fas ${method.type === 'bank' ? 'fa-university' : 'fa-mobile-alt'} fa-2x text-primary me-3"></i>
+                            <div>
+                                <h6 class="mb-0">${method.name}</h6>
+                                <small class="text-muted">${method.type === 'bank' ? 'Transfer Bank' : 'E-Wallet'}</small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(col);
+            });
+        }
+
+        // Function untuk memilih paket
+        function selectPackage(index) {
+            // Remove selected class from all packages
+            document.querySelectorAll('.package-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked package
+            event.currentTarget.classList.add('selected');
+            
+            // Save selected package
+            currentOrder.package = gameData[currentOrder.game][index];
+            
+            updateOrderSummary();
+        }
+
+        // Function untuk memilih metode pembayaran
+        function selectPaymentMethod(index) {
+            // Remove selected class from all payment methods
+            document.querySelectorAll('.payment-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked payment method
+            event.currentTarget.classList.add('selected');
+            
+            // Save selected payment method
+            currentOrder.paymentMethod = paymentMethods[index].name;
+        }
+
+        // Function untuk update ringkasan pesanan
+        function updateOrderSummary() {
+            if (currentOrder.package) {
+                const summary = `
+                    Game: ${currentOrder.game}<br>
+                    Paket: ${currentOrder.package.name}<br>
+                    Harga: Rp ${currentOrder.package.price.toLocaleString()}
+                `;
+                document.getElementById('orderSummary').innerHTML = summary;
+                document.getElementById('finalOrderSummary').innerHTML = summary;
+                document.getElementById('totalAmount').textContent = `Rp ${currentOrder.package.price.toLocaleString()}`;
+            }
+        }
+
+        // Function untuk navigasi step
+        function nextStep(step) {
+            // Validasi sebelum pindah step
+            if (step === 2 && !currentOrder.package) {
+                alert('Silakan pilih paket terlebih dahulu!');
+                return;
+            }
+            
+            if (step === 3) {
+                const form = document.getElementById('accountForm');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Save account data
+                currentOrder.account = {
+                    gameId: document.getElementById('gameId').value,
+                    server: document.getElementById('server').value,
+                    nickname: document.getElementById('nickname').value
+                };
+            }
+            
+            document.querySelectorAll('.step-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('step' + step).classList.add('active');
+            
+            document.querySelectorAll('.step').forEach((s, index) => {
+                if (index + 1 <= step) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+        }
+
+        function prevStep(step) {
+            nextStep(step);
+        }
+
+        // Function untuk reset data order
+        function resetOrderData() {
+            currentOrder = {
+                game: currentOrder.game,
+                package: null,
+                account: {
+                    gameId: '',
+                    server: '',
+                    nickname: ''
+                },
+                paymentMethod: ''
+            };
+            
+            document.getElementById('gameId').value = '';
+            document.getElementById('server').value = '';
+            document.getElementById('nickname').value = '';
+            document.getElementById('orderSummary').textContent = '-';
+            document.getElementById('finalOrderSummary').textContent = '-';
+            document.getElementById('totalAmount').textContent = 'Rp 0';
+            
+            document.querySelectorAll('.package-card, .payment-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            nextStep(1);
+        }
+
+        // Function untuk menyelesaikan order
+        function completeOrder() {
+            if (!currentOrder.paymentMethod) {
+                alert('Silakan pilih metode pembayaran!');
+                return;
+            }
+
+            // Simulasi proses order
+            const orderData = {
+                game: currentOrder.game,
+                package: currentOrder.package.name,
+                amount: currentOrder.package.amount,
+                price: currentOrder.package.price,
+                account: currentOrder.account,
+                payment: currentOrder.paymentMethod,
+                orderId: 'ORD' + Date.now()
+            };
+
+            // Tampilkan konfirmasi
+            const modal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
+            modal.hide();
+            
+            alert(`Pesanan berhasil!\n\nDetail Pesanan:\nGame: ${orderData.game}\nPaket: ${orderData.package}\nHarga: Rp ${orderData.price.toLocaleString()}\nID Game: ${orderData.account.gameId}\nServer: ${orderData.account.server}\nNickname: ${orderData.account.nickname}\nMetode Bayar: ${orderData.payment}\n\nOrder ID: ${orderData.orderId}\n\nSilakan lanjutkan pembayaran.`);
+            
+            // Reset untuk order berikutnya
+            resetOrderData();
+        }
+    </script>
+</body>
+</html>
